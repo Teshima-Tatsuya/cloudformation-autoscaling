@@ -1,9 +1,13 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: main vpc definition
+
 Parameters:
+  Owner:
+    Type: String
   MainCIDR:
     Type: String
     Default: 10.0.0.0/16
+
 Resources:
   MainVPC:
     Type: AWS::EC2::VPC
@@ -13,6 +17,40 @@ Resources:
       EnableDnsSupport: 'true'
       Tags:
       - Key: Name
-        Value: teshima-vpc-with-cfn
-      - Key: Owner
-        Value: teshima
+        Value: !Sub "${Owner}-vpc-with-cfn"
+  MainSubnetPubA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MainVPC
+      AvailabilityZone: ap-northeast-1a
+      CidrBlock: !Select [ 2, !Cidr [ !GetAtt MainVPC.CidrBlock, 4, 14]]
+      Tags:
+      - Key: Name
+        Value: !Sub "${Owner}-vpc-with-cfn-sub-pub-a"
+  MainSubnetPubC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MainVPC
+      AvailabilityZone: ap-northeast-1c
+      CidrBlock: !Select [ 3, !Cidr [ !GetAtt MainVPC.CidrBlock, 4, 14]]
+      Tags:
+      - Key: Name
+        Value: !Sub "${Owner}-vpc-with-cfn-sub-pub-c"
+  MainSubnetPriA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MainVPC
+      AvailabilityZone: ap-northeast-1a
+      CidrBlock: !Select [ 0, !Cidr [ !GetAtt MainVPC.CidrBlock, 4, 14]]
+      Tags:
+      - Key: Name
+        Value: !Sub "${Owner}-vpc-with-cfn-sub-pri-a"
+  MainSubnetPriC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MainVPC
+      AvailabilityZone: ap-northeast-1c
+      CidrBlock: !Select [ 1, !Cidr [ !GetAtt MainVPC.CidrBlock, 4, 14]]
+      Tags:
+      - Key: Name
+        Value: !Sub "${Owner}-vpc-with-cfn-sub-pri-c"

@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Main
+Parameters:
+  Owner:
+    Type: String
+    Default: teshima
+Resources:
+  MainVPC:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Tags:
+      - Key: Owner
+        Value:
+          Ref: Owner
+      TemplateURL: ./vpc.yaml
+      Parameters:
+        Owner: !Ref Owner
