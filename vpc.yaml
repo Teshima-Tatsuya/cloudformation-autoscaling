@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: main vpc definition
+Parameters:
+  MainCIDR:
+    Type: String
+    Default: 10.0.0.0/16
+Resources:
+  MainVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref MainCIDR
+      EnableDnsHostnames: 'true'
+      EnableDnsSupport: 'true'
+      Tags:
+      - Key: Name
+        Value: teshima-vpc-with-cfn
+      - Key: Owner
+        Value: teshima
